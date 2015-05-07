@@ -82,16 +82,17 @@ Usage Example:
 
   > ./maintenance_tracker delete
   
-  What would you like to delete?
+  > What would you like to delete?
   
-  1. Oil Change at 180000
+  > 1. Oil Change at 180000
   
-  2. New Tires at 200000
+  > 2. New Tires at 200000
   
-  3. Fuel Filter at 205000
+  > 3. Fuel Filter at 205000
   
   > 3
-  "Fuel Filter at 205000" deleted"
+
+  > "Fuel Filter at 205000" deleted"
   
 Acceptance Criteria
 
