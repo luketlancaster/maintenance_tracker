@@ -15,14 +15,16 @@ In order to track all the vehicles under my purview I want to be able to add new
 
 Usage Example:
 
-  > `./maintenance_tracker new car`
-    Please enter the year of car
+```
+  > ./maintenance_tracker new car
+  Please enter the year of car
   > 2014
-    Please enter the make of car
+  Please enter the make of car
   > Honda
-    Please enter the model of car
+  Please enter the model of car
   > CRV
-    2014 Honda CRV added to database
+  2014 Honda CRV added to database
+```
 
 Acceptance Criteria
 
@@ -45,10 +47,10 @@ In order to keep my cars accurate (in case of sale or loss) I want to be able to
 In order to quickly store current status of vehicle I want to be able to update the mileage of that vehicle
 
 Usage Example:
-
+```
   > ./maintenance_tracker odo Jetta 129000
-
-  > 2000 Volkswagon Jetta mileage updated to 129000 miles
+  2000 Volkswagon Jetta mileage updated to 129000 miles
+```
 
 Acceptance Criteria
 
@@ -57,15 +59,16 @@ Acceptance Criteria
   * New mileage is stored
   * A message confirming the storing of that data is printed out
 
-### Program asks for current mileage and returns next maintenance needed
+### Get current mileage and return next maintenance needed
 
 In order to keep track, and be reminded, of the required maintenance for my car I want to be able to input milage and be returned the upcoming maintenance
 
 Usage Example:
 
+```
   > ./maintenance_tracker next CRV
-
-  > The next scheduled maintenance for your Honda CRV is: Oil Change at 130000 miles
+  The next scheduled maintenance for your Honda CRV is: Oil Change at 130000 miles
+```
 
 Acceptance Criteria
 
@@ -79,9 +82,10 @@ In order to keep on top of upcoming maintenance I want to be able to add events 
 
 Usage Example:
 
+```
   > ./maintenance_tracker add "Tire Rotation" 180000 Jetta
-
-  > Tire Rotation scheduled for Volkswagon Jetta at 180000 miles
+  Tire Rotation scheduled for Volkswagon Jetta at 180000 miles
+```
 
 Acceptance Criteria
 
@@ -90,22 +94,21 @@ Acceptance Criteria
 
 ### View List of All Maintenance
 
-In order to improperly inputted data I want to be able to edit events previously inputted
+In order to keep track of completed and upcoming maintenance I want to be able to view all maintenance
 
 Usage Example:
 
+```
   > ./maintenance_tracker list Jetta
-
-  > 1. Oil Change at 180000
-
-  > 2. New Tires at 200000
-
-  > 3. Fuel Filter at 205000
+  1. √ Oil Change at 180000 
+  2. New Tires at 200000
+  3. Fuel Filter at 205000
+```
 
 Acceptance Criteria
 
 * User passes in `list` command and one argument: name of car
-* A list of all maintenance is printed out
+* A list of all maintenance is printed out, with a √ next to completed items
 
 ### Deleting Maintenance
 
@@ -113,23 +116,17 @@ In order to remove duplacates and/or unneeded events I want to be able to delete
 
 Usage Example:
 
+```
   > ./maintenance_tracker deleteMaint
-
-  > For which car?
-
-  Jetta
-
-  > What would you like to delete?
-
-  > 1. Oil Change at 180000
-
-  > 2. New Tires at 200000
-
-  > 3. Fuel Filter at 205000
-
+  For which car?
+  > Jetta
+  What would you like to delete?
+  1. Oil Change at 180000
+  2. New Tires at 200000
+  3. Fuel Filter at 205000
   > 3
-
-  > "Fuel Filter at 205000" deleted for your 2000 Volkswagon Jetta"
+  "Fuel Filter at 205000" deleted for your 2000 Volkswagon Jetta"
+```
 
 Acceptance Criteria
 
@@ -144,36 +141,26 @@ Acceptance Criteria
 
 ### Editing Maintenance Already in Database
 
-In order to plan for the future or see what has been accomplished I want to be able to list all maintenence for my vehicle
+In order to mark maintenance as completed or edit typeos I want to be able to list and edit maintenance already in database
 
 Usage Example:
 
+```
   > ./maintenance_tracker editMaint
-
-  > For which car?
-
-  Jetta
-
-  > What would you like to edit?
-
-  > 1. Oil Change at 180000
-
-  > 2. New Tires at 200000
-
-  > 3. Fuel Filter at 205000
-
-  > 3
-
-  > What would you like to change the name or mileage?
-
+  For which car?
+  > Jetta
+  What would you like to edit?
+  1. Oil Change at 180000
+  2. New Tires at 200000
+  3. Fuel Filter at 205000
+  >3
+  What would you like to change the name or mileage or mark as completed?
   > Name
-
-  > What new name would you like to give it?
-
+  What new name would you like to give it?
   > Cabin Air Filter
+  Item for 2000 Volkswagon Jetta now: Cabin Air Filter at 205000
 
-  > Item for 2000 Volkswagon Jetta now: Cabin Air Filter at 205000
-
+```
 
 Acceptance Criteria
 
