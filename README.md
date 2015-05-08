@@ -28,23 +28,81 @@ Usage Example:
 
 Acceptance Criteria
 
-  * User passes in "new car" argument to program
-  * Three prompts are printed, asking for year, make, and model of car
-  * Confirmation is printed showing user's input
-  * Car is stored in database
+* User passes in `new` command with one argument: car
+* Three prompts are printed, asking for year, make, and model of car
+* Confirmation is printed showing user's input
+* Car is stored in database
 
 ### Editing an existing car
 
 In order update a car without having to delete one I want to be able to edit exisiting cars
 
+Usage Example:
+
+```
+  >./maintenance_tracker edit Jetta
+  What would you like to edit about your 2000 Volkswagon Jetta? (Make,
+Model, Name, Year?)
+  > Year
+  Please enter the updated year
+  > 2001
+  The year of your Volkswagon Jetta is now 2001
+```
+
+Acceptance Criteria
+
+* User passes in `edit` command and one argument: name of car
+* The program prompts for what the user would like to change
+* The user types in the category they would like to change
+* The program prompts for the updated value
+* The user types in the updated value
+* The program displays a confirmation of that updated value
+
 ### Deleting a car
 
 In order to keep my cars accurate (in case of sale or loss) I want to be able to delete cars
+
+Usage Example:
+
+```
+  >./maintenance_tracker delete CRV
+  Are you sure you would like to delete your 2014 Honda CRV? (y/n)
+  > y
+  2014 Honda CRV and all maintanence records deleted from database
+```
+
+Acceptance Criteria
+
+* User passes in `delete` command and one argument: name of car
+* Program asks for confirmation
+* User types `y` or `n` to confirm or deny action
+* If confirmed, the car and all records are removed from database
+* Confirmation is printed out
+
+### View Milage of Vehicle
+
+In order to check on last updated mileage I want to be able to quickly
+view the milage on that car
+
+Usage Example:
+
+```
+  >./maintenance_tracker Jetta
+  Your 2001 Volkswagon Jetta is at 200,000 miles
+```
+
+Acceptance Criteria
+
+* User passes in name of car
+* The program prints out the year, make, model, and current miles for
+  that car
+
 
 
 ### Update Mileage of Vehicle
 
 In order to quickly store current status of vehicle I want to be able to update the mileage of that vehicle
+
 
 Usage Example:
 ```
@@ -54,12 +112,12 @@ Usage Example:
 
 Acceptance Criteria
 
-  * User passess `odo` command and two arguments to program: name of car
-    and miles to update car with
-  * New mileage is stored
-  * A message confirming the storing of that data is printed out
+* User passess `odo` command and two arguments to program: name of car
+  and miles to update car with
+* New mileage is stored
+* A message confirming the storing of that data is printed out
 
-### Get current mileage and return next maintenance needed
+### Get next maintenance
 
 In order to keep track, and be reminded, of the required maintenance for my car I want to be able to input milage and be returned the upcoming maintenance
 
@@ -89,7 +147,8 @@ Usage Example:
 
 Acceptance Criteria
 
-* User passes in `new` command followed by the job and miles at which job needs to be completed
+* User passes in `new` command followed by three arguments: Job,
+  Miles, Name of car
 * That new maintenance is printed out with the mileage it is schudled at
 
 ### View List of All Maintenance
@@ -100,7 +159,7 @@ Usage Example:
 
 ```
   > ./maintenance_tracker list Jetta
-  1. √ Oil Change at 180000 
+  1. √ Oil Change at 180000
   2. New Tires at 200000
   3. Fuel Filter at 205000
 ```
@@ -121,7 +180,7 @@ Usage Example:
   For which car?
   > Jetta
   What would you like to delete?
-  1. Oil Change at 180000
+  1. √ Oil Change at 180000
   2. New Tires at 200000
   3. Fuel Filter at 205000
   > 3
@@ -146,9 +205,7 @@ In order to mark maintenance as completed or edit typeos I want to be able to li
 Usage Example:
 
 ```
-  > ./maintenance_tracker editMaint
-  For which car?
-  > Jetta
+  > ./maintenance_tracker editMaint Jetta
   What would you like to edit?
   1. Oil Change at 180000
   2. New Tires at 200000
@@ -164,9 +221,7 @@ Usage Example:
 
 Acceptance Criteria
 
-* User passes in `editMaint` command
-* The program asks "for which car"
-* User enters the name of the car
+* User passes in `editMaint` command and one argument: Name of car
 * Maintenance list is printed out
 * User selects which numbered item they want edited
 * User is asked if they want to edit the name or the milage for that numbered item
