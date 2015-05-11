@@ -141,14 +141,22 @@ In order to keep on top of upcoming maintenance I want to be able to add events 
 Usage Example:
 
 ```
-  > ./maintenance_tracker add "Tire Rotation" 180000 Jetta
-  Tire Rotation scheduled for Volkswagon Jetta at 180000 miles
+  > ./maintenance_tracker add
+  What job?
+  > Oil Change
+  For which car?
+  > Jetta
+  At what mileage?
+  > 2000000
+  Oil Change for your 2000 Jetta Scheduled at 200000 miles
 ```
 
 Acceptance Criteria
 
-* User passes in `new` command followed by three arguments: Job,
-  Miles, Name of car
+* User passes in `new` command
+* The program asks three questions: "What Job?", "For which car?", and
+  "At what mileage?"
+* The user inputs the appropriate answers
 * That new maintenance is printed out with the mileage it is schudled at
 
 ### View List of All Maintenance
