@@ -210,8 +210,8 @@ Usage Example:
   1. Oil Change at 180000
   2. New Tires at 200000
   3. Fuel Filter at 205000
-  >3
-  What would you like to change the name or mileage or mark as completed?
+  > 3
+  What would you like to change the name or mileage or mark as complete?
   > Name
   What new name would you like to give it?
   > Cabin Air Filter
@@ -229,3 +229,32 @@ Acceptance Criteria
 * Program asks what new name or mileage they want to give it
 * User types in the new name or mileage
 * A printout confirms the new name and mileage of the item
+
+### Marking Maintenance as Completed
+
+In order to parse maintenance data I want to be able to mark
+maintenance as completed
+
+Usage Example:
+
+```
+  >./maintenance_tracker editMaint Jetta
+  What would you like to edit?
+  1. Oil Change at 180000
+  2. New Tires at 200000
+  3. Fuel Filter at 205000
+  > 1
+  Would you like to change the name, mileage, or mark as complete?
+  > complete
+  Oil Change at 180000 for your 2000 Volkswagon Jetta is now marked as
+completed
+```
+
+Acceptance Criteria
+
+* User passes in `editMaint` command and one argument: Name of car
+* Maintenance list is printed out
+* User selects which numbered item they want edited
+* User is asked if they want to edit the name, milage, or completed status for that numbered item
+* User types in `complete`
+* A printout confirms the status of that maintenance item
