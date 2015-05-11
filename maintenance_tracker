@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+
+if ARGV.empty?
+  puts "(Help) Run as: ./maintenance_tracker new car"
+elsif ARGV[0].upcase == "NEW" and ARGV.length == 1
+  puts "(Help) Please supply argument 'car' or 'maintenance' after 'new' command"
+end
