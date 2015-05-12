@@ -40,10 +40,18 @@ In order update a car without having to delete one I want to be able to edit exi
 Usage Example:
 
 ```
-  >./maintenance_tracker edit Jetta
-  What would you like to edit about your 2000 Volkswagon Jetta? (Make,
-Model, Name, Year?)
-  > Year
+  >./maintenance_tracker edit
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 2
+  What would you like to update?
+  1. Name
+  2. Year
+  3. Make
+  4. Model
+  > 2
   Please enter the updated year
   > 2001
   The year of your Volkswagon Jetta is now 2001
@@ -52,11 +60,10 @@ Model, Name, Year?)
 Acceptance Criteria
 
 * User passes in `edit` command and one argument: name of car
-* The program prompts for what the user would like to change
-* The user types in the category they would like to change
-* The program prompts for the updated value
-* The user types in the updated value
-* The program displays a confirmation of that updated value
+* The program asks which car they would like to change, what they would
+  and what they would like to update in menu form
+* After answering all prompts a confirmation of changes is printed out
+
 
 ### Deleting a car
 
@@ -65,15 +72,22 @@ In order to keep my cars accurate (in case of sale or loss) I want to be able to
 Usage Example:
 
 ```
-  >./maintenance_tracker delete CRV
-  Are you sure you would like to delete your 2014 Honda CRV? (y/n)
+  >./maintenance_tracker delete
+  Which car would you like to delete?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 2
+  Are you sure you would like to delete your 2012 Honda CRV? (y/n)
   > y
-  2014 Honda CRV and all maintanence records deleted from database
+  2012 Honda CRV and all maintanence records deleted from database
 ```
 
 Acceptance Criteria
 
-* User passes in `delete` command and one argument: name of car
+* User passes in `delete` command
+* List of cars printed out and user asked which car they would like
+  deleted
 * Program asks for confirmation
 * User types `y` or `n` to confirm or deny action
 * If confirmed, the car and all records are removed from database
@@ -87,16 +101,22 @@ view the milage on that car
 Usage Example:
 
 ```
-  >./maintenance_tracker Jetta
-  Your 2001 Volkswagon Jetta is at 200,000 miles
+  >./maintenance_tracker milage
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 2
+  Your 2012 Honda CRV has 23000 miles
 ```
 
 Acceptance Criteria
 
 * User passes in name of car
+* List of cars printed out and use asked which one they would like the
+  milage for
 * The program prints out the year, make, model, and current miles for
   that car
-
 
 
 ### Update Mileage of Vehicle
@@ -106,14 +126,23 @@ In order to quickly store current status of vehicle I want to be able to update 
 
 Usage Example:
 ```
-  > ./maintenance_tracker odo Jetta 129000
+  > ./maintenance_tracker update
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
+  What is your current milage?
+  > 129000
   2000 Volkswagon Jetta mileage updated to 129000 miles
 ```
 
 Acceptance Criteria
 
-* User passess `odo` command and two arguments to program: name of car
-  and miles to update car with
+* User passess `update` command
+* List of cars printed out, user asked which car they would like to
+  update
+* User enters new milage
 * New mileage is stored
 * A message confirming the storing of that data is printed out
 
@@ -124,13 +153,19 @@ In order to keep track, and be reminded, of the required maintenance for my car 
 Usage Example:
 
 ```
-  > ./maintenance_tracker next CRV
+  > ./maintenance_tracker next
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 2
   The next scheduled maintenance for your Honda CRV is: Oil Change at 130000 miles
 ```
 
 Acceptance Criteria
 
-* User passes in `next` command and one argument: name of car
+* User passes in `next` command
+* User enters the number of car they would like the next maintenance for
 * Next maintenance is printed out for that car based on current mileage
   in database
 
@@ -142,10 +177,13 @@ Usage Example:
 
 ```
   > ./maintenance_tracker add
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
   What job?
   > Oil Change
-  For which car?
-  > Jetta
   At what mileage?
   > 2000000
   Oil Change for your 2000 Jetta Scheduled at 200000 miles
@@ -153,20 +191,26 @@ Usage Example:
 
 Acceptance Criteria
 
-* User passes in `new` command
-* The program asks three questions: "What Job?", "For which car?", and
+* User passes in `add` command
+* Program asks for which car, displaying a menu
+* The program asks three questions: "What Job?" and
   "At what mileage?"
 * The user inputs the appropriate answers
 * That new maintenance is printed out with the mileage it is schudled at
 
-### View List of All Maintenance
+### View List of Previous and Upcoming Maintenance
 
 In order to keep track of completed and upcoming maintenance I want to be able to view all maintenance
 
 Usage Example:
 
 ```
-  > ./maintenance_tracker list Jetta
+  > ./maintenance_tracker list
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
   1. √ Oil Change at 180000
   2. New Tires at 200000
   3. Fuel Filter at 205000
@@ -174,8 +218,37 @@ Usage Example:
 
 Acceptance Criteria
 
-* User passes in `list` command and one argument: name of car
+* User passes in `list` command
+* The program asks 'for which car' and lists all available vehicles
 * A list of all maintenance is printed out, with a √ next to completed items
+
+
+### View List of All Maintenance
+
+In order to view a macro picture of the needs of my car I want to be
+able to view all previous and upcoming maintenance
+
+Usage Example:
+
+```
+  > ./maintenance_tracker list all
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
+  1. √ Oil Change at 10000
+  ...
+  7. √ Tire Rotation at 100000
+  ...
+  10. Timing Belt at 150000
+```
+
+Acceptance Criteria
+* User passes in `list` command followed by `all` modifier
+* Program asks "For which car?" and lists all available cars
+* After user input all previous and upcoming maintenance for that car is
+  listed
 
 ### Deleting Maintenance
 
@@ -186,7 +259,10 @@ Usage Example:
 ```
   > ./maintenance_tracker deleteMaint
   For which car?
-  > Jetta
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
   What would you like to delete?
   1. √ Oil Change at 180000
   2. New Tires at 200000
@@ -198,8 +274,8 @@ Usage Example:
 Acceptance Criteria
 
 * User passes in `deleteMaint` command
-* The program asks "for which car"
-* User enters the name of the car
+* The program asks "for which car" and prints out list of cars
+* User enters number of car to edit
 * Maintenance list is printed out
 * User selects which numbered item they want deleted
 * That number is removed from the list
@@ -213,7 +289,12 @@ In order to mark maintenance as completed or edit typeos I want to be able to li
 Usage Example:
 
 ```
-  > ./maintenance_tracker editMaint Jetta
+  > ./maintenance_tracker editMaint
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
   What would you like to edit?
   1. Oil Change at 180000
   2. New Tires at 200000
@@ -246,7 +327,12 @@ maintenance as completed
 Usage Example:
 
 ```
-  >./maintenance_tracker editMaint Jetta
+  >./maintenance_tracker editMaint
+  For which car?
+  1. 2000 Jetta
+  2. 2012 CRV
+  3. 2014 Silverado
+  > 1
   What would you like to edit?
   1. Oil Change at 180000
   2. New Tires at 200000
