@@ -1,29 +1,5 @@
 require_relative '../test_helper.rb'
 
-## Adding a new car
-
-#In order to track all the vehicles under my purview I want to be able to add new cars to my database
-
-#Usage Example:
-
-#```
-  #> ./maintenance_tracker new car
-  #Please enter the year of car
-  #> 2014
-  #Please enter the make of car
-  #> Honda
-  #Please enter the model of car
-  #> CRV
-  #2014 Honda CRV added to database
-#```
-
-#Acceptance Criteria
-
-#* User passes in `new` command with one argument: car
-#* Three prompts are printed, asking for year, make, and model of car
-#* Confirmation is printed showing user's input
-#* Car is stored in database
-
 class AddingANewCarTest < Minitest::Test
 
   def test_manage_new_command_given

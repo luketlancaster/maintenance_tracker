@@ -10,9 +10,9 @@ describe Car do
     end
     describe "if there are cars" do
       before do
-        create_car("Volkswagon", "Jetta", 2000)
-        create_car("Honda", "Shadow", 1999)
-        create_car("Ford", "F-150", 2012)
+        create_car(2000, "Volkswagon", "Jetta")
+        create_car(1999, "Honda", "Shadow")
+        create_car(2013, "Ford", "F-150")
       end
       it "should return the models" do
         expected = ["Jetta", "Shadow", "F-150"]
@@ -30,8 +30,8 @@ describe Car do
     end
     describe "if there are cars" do
       before do
-        create_car("VW", "Jetta", 2009)
-        create_car("Chevy", "Corvette", 1987)
+        create_car(2000, "VW", "Jetta")
+        create_car(1987, "Chevy", "Corvette")
       end
       it "should return the correct count" do
         assert_equal 2, Car.count
@@ -42,7 +42,7 @@ describe Car do
   describe "#create" do
     describe "if we need to add cars" do
       it "should add a car" do
-        Car.create("VW", "Jetta", 2000)
+        Car.create(2000, "VW", "Jetta")
         assert_equal 1, Car.count
       end
 

@@ -19,4 +19,24 @@ describe CarsController do
       assert_equal expected_output, actual_output
     end
   end
+
+  describe "#add" do
+    let(:controller) {CarsController.new}
+
+    it "should add a new car" do
+      controller.add(2000, "VW", "Jetta")
+      assert_equal 1, Car.count
+    end
+
+    it "should only add cars with valid data" do
+      controller.add("hoe", "Jimmy", "John")
+      assert_equal 0, Car.count
+    end
+
+    it "should not add cars where any arguments are whitespace" do
+      assert_raises ArgumentError do
+        controller.add(1928, "   ", "")
+      end
+    end
+  end
 end
