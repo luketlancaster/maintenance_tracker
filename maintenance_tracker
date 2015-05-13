@@ -1,30 +1,13 @@
 #!/usr/bin/env ruby
 require 'highline/import'
 
-Dir["./app/**/*.rb"].each { |f| f.require }
+Dir["./app/**/*.rb"].each { |f| require f }
+Dir["./lib/*.rb"].each { |f| require f }
 
-######################
-####ADDING NEW CAR####
-######################
-#if ARGV.empty?
-  #puts "(Help) Run as: ./maintenance_tracker new car"
-#elsif ARGV[0].upcase == "NEW" and ARGV.length == 1
-  #puts "(Help) Please supply argument 'car' or 'maintenance' after 'new' command"
-#elsif ARGV[0].upcase == "NEW" and ARGV[1].upcase == "CAR"
-  #year = ask("Please enter the year of your car")
-  #make = ask("Please enter the make of your car")
-  #model = ask("Please enter the model of your car")
-  #puts "#{year} #{make} #{model} added to database"
-#end
-
-##########################
-##ADDING NEW MAINTENANCE##
-##########################
-if ARGV.empty?
-  puts "(Help) Run as: ./mainteance_tracker add 'Oil Change' 19000 CRV"
-elsif ARGV[0].upcase == "ADD"
-  job = ask("What job?")
-  car = ask("For which car?")
-  mileage = ask("At what mileage?")
-  puts "#{job} scheduled for your #{car} at #{mileage} miles"
+if ARGV[0].upcase == "NEW" and ARGV[1].upcase == "CAR" and ARGV.length == 2
+  year = ask("Please enter the year of your car")
+  make = ask("Please enter the make of your car")
+  model = ask("Please enter the model of your car")
+  Car.create(year.to_i, make, model)
+  puts "#{year} #{make} #{model} added to database"
 end

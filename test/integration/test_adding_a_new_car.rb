@@ -26,33 +26,11 @@ require_relative '../test_helper.rb'
 
 class AddingANewCarTest < Minitest::Test
 
-  def test_min_required_args
-    shell_output = ""
-    expected = ""
-    IO.popen('./maintenance_tracker') do |pipe|
-      expected = "(Help) Run as: ./maintenance_tracker new car\n"
-      shell_output = pipe.read
-    end
-
-    assert_equal expected, shell_output
-  end
-
-  def test_manage_argument_not_given
-    shell_output = ""
-    expected = ""
-    IO.popen('./maintenance_tracker') do |pipe|
-      expected = "(Help) Run as: ./maintenance_tracker new car\n"
-      shell_output = pipe.read
-    end
-
-    assert_equal expected, shell_output
-  end
-
   def test_manage_new_command_given
     shell_output = ""
     expected = ""
     IO.popen('./maintenance_tracker new') do |pipe|
-      expected = "(Help) Please supply argument 'car' or 'maintenance' after 'new' command\n"
+      expected = "(Help) Please supply argument 'car' or 'job' after 'new' command\n"
       shell_output = pipe.read
     end
 
