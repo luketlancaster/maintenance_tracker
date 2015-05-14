@@ -1,3 +1,5 @@
+require 'highline/import'
+
 class CarsController
   def index
     if Car.count > 0
@@ -13,20 +15,32 @@ class CarsController
   end
 
   def add(year, make, model)
-    make_cleaned = make.strip
-    model_cleaned = model.strip
-    if year.is_a?(Fixnum) or make_cleaned.empty? or model_cleaned.empty?
-      Car.create(year, make_cleaned, model_cleaned)
-      [year, make_cleaned, model_cleaned]
+    car = Car.new
+    car.year = year
+    car.make = make
+    car.model = model
+    if car.save
+      "#{year} #{make} #{model} added to database"
+    else
+      "#{car.errors}"
     end
   end
 
   def prompt
-    year = ask("Please enter the year of your car")
-    make = ask("Please enter the make of your car")
-    model = ask("Please enter the model of your car")
-    self.add(year.to_i, make, model)
-    say("#{year} #{make} #{model} added to database")
+    year = ''
+    make = ''
+    model = ''
+    while year.empty? or !year.class == Fixnum
+      year = ask("Please enter the year of your car")
+    end
+    while make.strip.empty?
+      make = ask("Please enter the make of your car")
+    end
+    while model.strip.empty?
+      model = ask("Please enter the model of your car")
+    end
+    response = self.add(year.to_i, make, model)
+    say(response) unless response.nil?
   end
 
 end

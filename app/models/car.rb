@@ -1,5 +1,10 @@
 class Car
-  attr_accessor :model, :year
+  attr_reader :id, :errors
+  attr_accessor :model, :year, :make
+
+  def initialize(make = nil)
+    self.make = make
+  end
 
   def self.all
     Database.execute("SELECT model, year FROM cars").map do |row|
@@ -14,11 +19,27 @@ class Car
     Database.execute("SELECT COUNT(id) FROM cars")[0][0]
   end
 
-  def self.create(year, make, model)
-    if make.empty? or model.empty? or year.zero?
-      raise ArgumentError.new("empty string")
+  def valid?
+    if @model.strip.empty?
+      @errors = "\"#{model}\" is not a valid model"
+      false
+    elsif @make.strip.empty?
+      @errors = "\"#{make}\" is not a valid make"
+      false
+    elsif !year.class == Fixnum or @year.to_i.zero?
+      @errors = "\"#{year}\" is not a valid year"
+      false
     else
-      Database.execute("INSERT INTO cars (year, make, model) VALUES (?,?,?)", year, make, model)
+      @errors = nil
+      true
     end
   end
+
+  def save
+    return false unless valid?
+    Database.execute("INSERT INTO cars (year, make, model) VALUES (?,?,?)", year, make, model)
+    @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+  end
+
+
 end

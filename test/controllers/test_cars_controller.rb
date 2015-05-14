@@ -34,9 +34,8 @@ describe CarsController do
     end
 
     it "should not add cars where any arguments are whitespace" do
-      assert_raises ArgumentError do
-        controller.add(1928, "   ", "")
-      end
+      controller.add(1928, "   ", "")
+      assert_equal 0, Car.count
     end
   end
 end

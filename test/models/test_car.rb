@@ -39,17 +39,110 @@ describe Car do
     end
   end
 
-  describe "#create" do
-    describe "if we need to add cars" do
-      it "should add a car" do
-        Car.create(2000, "VW", "Jetta")
-        assert_equal 1, Car.count
+  describe ".save" do
+    describe "if the model is valid" do
+      let(:car) { Car.new }
+      it "should return true" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = 2000
+        assert car.save
+      end
+      it "should save the model to the db" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = 2000
+        car.save
+        last_row = Database.execute("SELECT * FROM cars")[0]
+        car_model = last_row['model']
+        assert_equal "Jetta", car_model
+      end
+      it "should populate the model with the id from the db" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = 2000
+        car.save
+        last_row = Database.execute("SELECT * FROM cars")[0]
+        database_id = last_row['id']
+        assert_equal database_id, car.id
       end
 
-      it "should reject empty strings" do
-        assert_raises ArgumentError do
-          Car.create("", "", 0)
+
+      describe "if the model if invalid" do
+        let(:car) { Car.new }
+        it "should return false" do
+          car.make = "Volkswagon"
+          car.model = "  "
+          car.year = 2000
+          refute car.save
         end
+        it "should not save the model to the database" do
+          car.make = "Volkswagon"
+          car.model = "  "
+          car.year = 2000
+          car.save
+          assert_equal 0, Car.count
+        end
+        it "should populate the error message" do
+          car.make = "Volkswagon"
+          car.model = "  "
+          car.year = 2000
+          car.save
+          assert_equal "\"#{car.model}\" is not a valid model", car.errors
+        end
+      end
+    end
+  end
+
+  describe ".valid?" do
+    describe "with valid data" do
+      let(:car) { Car.new }
+      it "returns true" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = 2000
+        car.valid?
+      end
+      it "should set errors to nil?" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = 2000
+        car.valid?
+        assert car.errors.nil?
+      end
+    end
+
+    describe "with no make" do
+      let(:car) { Car.new(year: 2000, make: "", model: "Jetta") }
+      it "retruns false" do
+        car.make = ""
+        car.model = "Jetta"
+        car.year = 2000
+        car.valid?
+      end
+      it "sets the error message" do
+        car.make = ""
+        car.model = "Jetta"
+        car.year = 2000
+        car.valid?
+        assert_equal "\"\" is not a valid make", car.errors
+      end
+    end
+
+    describe "year with no numbers" do
+      let(:car) { Car.new }
+      it "returns false" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = "Joe"
+        car.valid?
+      end
+      it "sets the error message" do
+        car.make = "Volkswagon"
+        car.model = "Jetta"
+        car.year = "Joe"
+        car.valid?
+        assert_equal "\"#{car.year}\" is not a valid year", car.errors
       end
     end
   end
