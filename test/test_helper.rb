@@ -14,6 +14,7 @@ class Minitest::Test
     Database.load_structure
     Database.execute("DELETE FROM cars;")
     Database.execute("DELETE FROM tasks;")
+    Database.execute("DELETE FROM mileages;")
   end
 end
 
@@ -23,4 +24,10 @@ end
 
 def create_task(car_id, name, mileage)
   Database.execute("INSERT INTO tasks (car_id, name, mileage) VALUES (?,?,?)", car_id, name, mileage)
+end
+
+def create_mileage(car_id, mileage)
+  Database.execute("INSERT INTO mileages (car_id, mileage) VALUES (?,?)", car_id, mileage)
+  mileage_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+  Database.execute("UPDATE cars SET current_mileage_id = ? WHERE id = ?", mileage_id, car_id)
 end

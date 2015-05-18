@@ -15,7 +15,7 @@ describe CarsController do
       create_car(2000, "VW", "Jetta")
       create_car(1987, "Big", "Chief")
       actual_output = controller.index
-      expected_output = "1. 2000 Jetta\n2. 1987 Chief\n"
+      expected_output = "1. 2000 VW Jetta\n2. 1987 Big Chief\n"
       assert_equal expected_output, actual_output
     end
   end

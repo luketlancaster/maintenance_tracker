@@ -7,10 +7,12 @@ class Car
   end
 
   def self.all
-    Database.execute("SELECT model, year FROM cars").map do |row|
+    Database.execute("SELECT * FROM cars").map do |row|
       car = Car.new
-      car.model = row[0]
-      car.year = row[1]
+      car.model = row['model']
+      car.year = row['year']
+      car.make = row['make']
+      car.instance_variable_set(:@id, row['id'])
       car
     end
   end
@@ -41,5 +43,8 @@ class Car
     @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
   end
 
+  def update(old_make, new_make)
+
+  end
 
 end

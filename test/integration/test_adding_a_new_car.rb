@@ -39,6 +39,7 @@ class AddingANewCarTest < Minitest::Test
       pipe.puts "2000"
       expected << "Please enter the make of your car\n"
       pipe.puts ""
+      expected << "'' is not acceptable input\n"
       expected << "Please enter the make of your car\n"
       pipe.puts "Volkswagon"
       expected << "Please enter the model of your car\n"

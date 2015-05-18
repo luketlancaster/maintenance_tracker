@@ -101,7 +101,7 @@ describe Car do
         car.make = "Volkswagon"
         car.model = "Jetta"
         car.year = 2000
-        car.valid?
+        assert_equal true, car.valid?
       end
       it "should set errors to nil?" do
         car.make = "Volkswagon"
@@ -118,7 +118,7 @@ describe Car do
         car.make = ""
         car.model = "Jetta"
         car.year = 2000
-        car.valid?
+        refute car.valid?
       end
       it "sets the error message" do
         car.make = ""
@@ -135,7 +135,7 @@ describe Car do
         car.make = "Volkswagon"
         car.model = "Jetta"
         car.year = "Joe"
-        car.valid?
+        refute car.valid?
       end
       it "sets the error message" do
         car.make = "Volkswagon"
@@ -143,6 +143,27 @@ describe Car do
         car.year = "Joe"
         car.valid?
         assert_equal "\"#{car.year}\" is not a valid year", car.errors
+      end
+    end
+  end
+
+  describe ".update" do
+    describe "edit previously saved car" do
+      let (:car) { Car.new }
+      let (:new_car_make) { "Junker" }
+      it "should update the car make, but not the id" do
+        skip
+        car.make = "Chrysler"
+        car.model = "Sebring"
+        car.year = 2006
+        car.save
+        assert_equal 1, Car.count
+        car_to_update = Database.execute("SELECT * FROM cars WHERE make LIKE ?", car.make)[0]
+        car_id = car_to_update['id']
+        car.update(car.make, new_car_make)
+        last_row = Database.execute("SELECT * FROM cars")[0]
+        car_make_from_db = last_row['make']
+        assert_equal new_car_make, car_make_from_db
       end
     end
   end

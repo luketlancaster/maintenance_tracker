@@ -8,7 +8,9 @@ class Database
       id integer PRIMARY KEY AUTOINCREMENT,
       make varchar(50) NOT NULL,
       model varchar(50) NOT NULL,
-      year integer NOT NULL
+      year integer NOT NULL,
+      current_mileage_id integer,
+      FOREIGN KEY (current_mileage_id) REFERENCES mileages (id)
     );
     SQL
     Database.execute <<-SQL
@@ -18,6 +20,15 @@ class Database
       name varchar(20),
       milage integer,
       completed boolean not null default 0,
+      FOREIGN KEY (car_id) REFERENCES cars (id)
+    );
+    SQL
+    Database.execute <<-SQL
+    CREATE TABLE IF NOT EXISTS mileages (
+      id integer PRIMARY KEY AUTOINCREMENT,
+      car_id integer,
+      mileage integer,
+      date datetime DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (car_id) REFERENCES cars (id)
     );
     SQL
