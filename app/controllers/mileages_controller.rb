@@ -2,12 +2,12 @@ require 'highline/import'
 
 class MileagesController
 
-  def index
+  def index(car_id)
     if Mileage.count > 0
-      miles = Mileage.all
+      miles = Mileage.all(car_id)
       miles_string = ""
-      miles.each_with_index do |car, index|
-        miles_string << "#{index + 1}. #{miles.mileage}\n"
+      miles.each_with_index do |mile, index|
+        miles_string << "#{index + 1}. #{mile.mileage}\n"
       end
       miles_string
     else
