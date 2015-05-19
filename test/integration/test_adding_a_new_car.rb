@@ -2,54 +2,51 @@ require_relative '../test_helper.rb'
 
 class AddingANewCarTest < Minitest::Test
 
-  def test_manage_new_command_given
+  def test_adding_a_car_happy_path
     shell_output = ""
-    expected = ""
-    IO.popen('./maintenance_tracker new') do |pipe|
-      expected = "(Help) Please supply argument 'car' or 'job' after 'new' command\n"
-      shell_output = pipe.read
-    end
-
-    assert_equal expected, shell_output
-  end
-
-  def test_manage_new_command_and_car_argument_given_happy_path
-    shell_output = ""
-    expected = ""
-    IO.popen('./maintenance_tracker new car', 'r+') do |pipe|
-      expected << "Please enter the year of your car\n"
+    expected_output = main_menu
+    IO.popen('./maintenance_tracker', 'r+') do |pipe|
+      pipe.puts "4"
+      expected_output << "Please enter the year of your car\n"
       pipe.puts "2000"
-      expected << "Please enter the make of your car\n"
+      expected_output << "Please enter the make of your car\n"
       pipe.puts "Volkswagon"
-      expected << "Please enter the model of your car\n"
+      expected_output << "Please enter the model of your car\n"
       pipe.puts "Jetta"
-      expected << "2000 Volkswagon Jetta added to database\n"
-      pipe.close_write
+      expected_output << "\n\n2000 Volkswagon Jetta added to database\n\n"
+      expected_output << main_menu
+      pipe.puts "10"
       shell_output = pipe.read
+      pipe.close_read
+      pipe.close_write
     end
 
-    assert_equal expected, shell_output
+    assert_equal expected_output, shell_output
   end
 
   def test_manage_new_command_and_car_argument_given_sad_path
     shell_output = ""
-    expected = ""
-    IO.popen('./maintenance_tracker new car', 'r+') do |pipe|
-      expected << "Please enter the year of your car\n"
+    expected_output = main_menu
+    IO.popen('./maintenance_tracker', 'r+') do |pipe|
+      pipe.puts "4"
+      expected_output << "Please enter the year of your car\n"
       pipe.puts "2000"
-      expected << "Please enter the make of your car\n"
+      expected_output << "Please enter the make of your car\n"
       pipe.puts ""
-      expected << "'' is not acceptable input\n"
-      expected << "Please enter the make of your car\n"
+      expected_output << "'' is not acceptable input\n"
+      expected_output << "Please enter the make of your car\n"
       pipe.puts "Volkswagon"
-      expected << "Please enter the model of your car\n"
+      expected_output << "Please enter the model of your car\n"
       pipe.puts "Jetta"
-      expected << "2000 Volkswagon Jetta added to database\n"
-      pipe.close_write
+      expected_output << "\n\n2000 Volkswagon Jetta added to database\n\n"
+      expected_output << main_menu
+      pipe.puts "10"
       shell_output = pipe.read
+      pipe.close_read
+      pipe.close_write
     end
 
-    assert_equal expected, shell_output
+    assert_equal expected_output, shell_output
   end
 
 end

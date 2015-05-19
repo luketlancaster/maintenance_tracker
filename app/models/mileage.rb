@@ -31,5 +31,6 @@ class Mileage
     Database.execute("INSERT INTO mileages (mileage, car_id) VALUES (?, ?)", mileage, car_id)
     @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
     Database.execute("UPDATE cars SET current_mileage_id = ? WHERE id = ?", id, car_id)
+    true
   end
 end

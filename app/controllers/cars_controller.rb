@@ -20,7 +20,7 @@ class CarsController
     car.make = make
     car.model = model
     if car.save
-      "#{year} #{make} #{model} added to database"
+      "\n\n#{year} #{make} #{model} added to database\n\n"
     else
       "#{car.errors}"
     end
@@ -65,21 +65,24 @@ class CarsController
     if choice == "make"
       car.make = ask("Please enter the updated make")
       while car.make.empty?
+        puts "'#{car.make}' is not acceptable input"
         car.make = ask("Please enter the updated make")
       end
     elsif choice == "model"
       car.model = ask("Please enter the updated model")
       while car.model.empty?
+        puts "'#{car.model}' is not acceptable input"
         car.model = ask("Please enter the updated model")
       end
     elsif choice == "year"
       car.year = ask("Please enter the updated year")
       while car.year.empty?
+        puts "'#{car.year}' is not acceptable input"
         car.year = ask("Please enter the updated year")
       end
     end
     if car.save
-      say("#{old_car} has been updated to #{car.year} #{car.make} #{car.model}")
+      say("\n\n#{old_car} has been updated to #{car.year} #{car.make} #{car.model}\n\n")
       return
     else
       say(car.errors)

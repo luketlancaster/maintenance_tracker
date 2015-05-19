@@ -18,6 +18,10 @@ class Minitest::Test
   end
 end
 
+def main_menu
+  "1. List Cars\n2. List Tasks\n3. Update Mileage\n4. New Car\n5. Edit Car\n6. New Task\n7. Edit Task\n8. Delete Car\n9. Delete Task\n10. Exit\n"
+end
+
 def create_car(year, make, model)
   Database.execute("INSERT INTO cars (year, make, model) VALUES (?,?,?)", year, make, model)
 end

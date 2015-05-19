@@ -24,7 +24,7 @@ class MileagesController
       model = car[0]['model']
       year = car[0]['year']
       make = car[0]['make']
-      "#{year} #{make} #{model} mileage updated to #{mileage} miles"
+      "\n\n#{year} #{make} #{model} mileage updated to #{mileage} miles\n\n"
     else
       "#{miles.errors}"
     end
@@ -44,7 +44,7 @@ class MileagesController
     end
     miles = ask("What is your current mileage?")
     while miles.to_i < 1 or miles.empty? or miles.nil?
-      puts "'#{miles}' is not acceptable input"
+      puts "'#{miles}' is not valid input"
       miles = ask("What is your current mileage?")
     end
     car_index = car_index.to_i - 1

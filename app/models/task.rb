@@ -46,7 +46,11 @@ class Task
 
   def save
     return false unless valid?
-    Database.execute("INSERT INTO tasks(name, mileage, car_id) VALUES (?,?,?)", name, mileage, car_id)
-    @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+    if @id.nil?
+      Database.execute("INSERT INTO tasks(name, mileage, car_id) VALUES (?,?,?)", name, mileage, car_id)
+      @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+    else
+      Database.execute("UPDATE tasks SET name = ?, mileage = ? WHERE id = ?", name, mileage, id)
+    end
   end
 end

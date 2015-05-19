@@ -66,30 +66,49 @@ describe Car do
         database_id = last_row['id']
         assert_equal database_id, car.id
       end
+    end
 
 
-      describe "if the model if invalid" do
-        let(:car) { Car.new }
-        it "should return false" do
-          car.make = "Volkswagon"
-          car.model = "  "
-          car.year = 2000
-          refute car.save
-        end
-        it "should not save the model to the database" do
-          car.make = "Volkswagon"
-          car.model = "  "
-          car.year = 2000
-          car.save
-          assert_equal 0, Car.count
-        end
-        it "should populate the error message" do
-          car.make = "Volkswagon"
-          car.model = "  "
-          car.year = 2000
-          car.save
-          assert_equal "\"#{car.model}\" is not a valid model", car.errors
-        end
+    describe "if the model is invalid" do
+      let(:car) { Car.new }
+      it "should return false" do
+        car.make = "Volkswagon"
+        car.model = "  "
+        car.year = 2000
+        refute car.save
+      end
+      it "should not save the model to the database" do
+        car.make = "Volkswagon"
+        car.model = "  "
+        car.year = 2000
+        car.save
+        assert_equal 0, Car.count
+      end
+      it "should populate the error message" do
+        car.make = "Volkswagon"
+        car.model = "  "
+        car.year = 2000
+        car.save
+        assert_equal "\"#{car.model}\" is not a valid model", car.errors
+      end
+    end
+
+    describe "if the id is already taken" do
+      let(:car) { Car.new }
+      it "updates the new info, but does not create a new item" do
+        car.make = "VW"
+        car.model = "Jetta"
+        car.year = 2000
+        car.save
+        model_from_db = Car.all[0].model
+        car_id = Car.all[0].id
+        assert_equal "Jetta", model_from_db
+        car.model = "Jortta"
+        car.save
+        model_from_db = Car.all[0].model
+        should_be_same_id = Car.all[0].id
+        assert_equal "Jortta", model_from_db
+        assert_equal car_id, should_be_same_id
       end
     end
   end
@@ -143,27 +162,6 @@ describe Car do
         car.year = "Joe"
         car.valid?
         assert_equal "\"#{car.year}\" is not a valid year", car.errors
-      end
-    end
-  end
-
-  describe ".update" do
-    describe "edit previously saved car" do
-      let (:car) { Car.new }
-      let (:new_car_make) { "Junker" }
-      it "should update the car make, but not the id" do
-        skip
-        car.make = "Chrysler"
-        car.model = "Sebring"
-        car.year = 2006
-        car.save
-        assert_equal 1, Car.count
-        car_to_update = Database.execute("SELECT * FROM cars WHERE make LIKE ?", car.make)[0]
-        car_id = car_to_update['id']
-        car.update(car.make, new_car_make)
-        last_row = Database.execute("SELECT * FROM cars")[0]
-        car_make_from_db = last_row['make']
-        assert_equal new_car_make, car_make_from_db
       end
     end
   end
