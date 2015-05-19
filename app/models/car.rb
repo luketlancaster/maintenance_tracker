@@ -39,12 +39,13 @@ class Car
 
   def save
     return false unless valid?
-    Database.execute("INSERT INTO cars (year, make, model) VALUES (?,?,?)", year, make, model)
-    @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
-  end
-
-  def update(old_make, new_make)
-
+    if @id.nil?
+      Database.execute("INSERT INTO cars (year, make, model) VALUES (?,?,?)", year, make, model)
+      @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
+      true
+    else
+      Database.execute("UPDATE cars SET year = ?, make = ?, model = ? WHERE id = ?", year, make, model, id)
+    end
   end
 
 end

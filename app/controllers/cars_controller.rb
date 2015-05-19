@@ -46,4 +46,44 @@ class CarsController
     say(response) unless response.nil?
   end
 
+  def edit_car
+    cars = Car.all
+    cars_controller = CarsController.new
+    say("Which car would you like to edit?")
+    say(cars_controller.index)
+    car_index = ask('')
+    while car_index.to_i < 1 or car_index.empty? or car_index.nil? or car_index.to_i > cars.length
+      puts "'#{car_index}' is not acceptable input"
+      say("Which car would you like to edit?")
+      say(cars_controller.index)
+      car_index = ask('')
+    end
+    car_index = car_index.to_i - 1
+    car = cars[car_index]
+    old_car = "#{car.year} #{car.make} #{car.model}"
+    choice = ask("What would you like to edit: make, model, or year?")
+    if choice == "make"
+      car.make = ask("Please enter the updated make")
+      while car.make.empty?
+        car.make = ask("Please enter the updated make")
+      end
+    elsif choice == "model"
+      car.model = ask("Please enter the updated model")
+      while car.model.empty?
+        car.model = ask("Please enter the updated model")
+      end
+    elsif choice == "year"
+      car.year = ask("Please enter the updated year")
+      while car.year.empty?
+        car.year = ask("Please enter the updated year")
+      end
+    end
+    if car.save
+      say("#{old_car} has been updated to #{car.year} #{car.make} #{car.model}")
+      return
+    else
+      say(car.errors)
+    end
+  end
+
 end

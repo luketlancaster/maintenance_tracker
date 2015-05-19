@@ -52,7 +52,7 @@ describe Mileage do
     end
   end
 
-  describe "#save" do
+  describe ".save" do
     describe "if the milage is valid" do
       create_car(2000, "VW", "Jetta")
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']

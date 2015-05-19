@@ -20,7 +20,7 @@ describe CarsController do
     end
   end
 
-  describe "#add" do
+  describe ".add" do
     let(:controller) {CarsController.new}
 
     it "should add a new car" do

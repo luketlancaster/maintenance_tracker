@@ -18,7 +18,7 @@ class Database
       id integer PRIMARY KEY AUTOINCREMENT,
       car_id integer,
       name varchar(20),
-      milage integer,
+      mileage integer,
       completed boolean not null default 0,
       FOREIGN KEY (car_id) REFERENCES cars (id)
     );
@@ -28,7 +28,7 @@ class Database
       id integer PRIMARY KEY AUTOINCREMENT,
       car_id integer,
       mileage integer,
-      date datetime DEFAULT CURRENT_TIMESTAMP,
+      date datetime DEFAULT (datetime('now','localtime')),
       FOREIGN KEY (car_id) REFERENCES cars (id)
     );
     SQL

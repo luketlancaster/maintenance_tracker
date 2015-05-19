@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 describe MileagesController do
 
-  describe ".index" do
+  describe ".index()" do
     let(:mileages_controller) {MileagesController.new}
 
     it "returns a message when no mileages found" do

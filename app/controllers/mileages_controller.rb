@@ -31,20 +31,22 @@ class MileagesController
   end
 
   def update_miles
+    cars = Car.all
     cars_controller = CarsController.new
     say("For which car?")
     say(cars_controller.index)
-    car_index = ask('')
-    while car_index.to_i < 1 or car_index.empty? or car_index.nil?
-      puts "'#{car_index}' is not acceptable input"
-      car_index = ask("For which car?")
+    car_index = ask('').to_i
+    while car_index.to_i < 1 or car_index > cars.length
+      say("#{car_index} is not a valid choice")
+      say("For which car?")
+      say(cars_controller.index)
+      car_index = ask('')
     end
     miles = ask("What is your current mileage?")
     while miles.to_i < 1 or miles.empty? or miles.nil?
       puts "'#{miles}' is not acceptable input"
       miles = ask("What is your current mileage?")
     end
-    cars = Car.all
     car_index = car_index.to_i - 1
     car_id = cars[car_index].id
     response = self.add(car_id, miles.to_i)
