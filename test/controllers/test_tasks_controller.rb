@@ -3,7 +3,9 @@ require_relative '../test_helper'
 describe TasksController do
 
   describe ".index()" do
-    create_car(2000, "Hunko", "Junko")
+    before do
+      create_car(2000, "Hunko", "Junko")
+    end
     car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
     let(:tasks_controller) { TasksController.new }
     it "returns 'no tasks found: add a task' when empty" do
@@ -22,7 +24,9 @@ describe TasksController do
   end
 
   describe ".add()" do
-    create_car(2000, "Hunko", "Junko")
+    before do
+      create_car(2000, "Hunko", "Junko")
+    end
     car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
     let(:tasks_controller) { TasksController.new }
     it "adds a new task" do

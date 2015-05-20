@@ -4,7 +4,9 @@ describe Mileage do
 
   describe '#all()' do
     describe 'when a proper car id is passed in' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns all mileage readings for that car' do
         create_mileage(car_id, 100000)
@@ -24,7 +26,9 @@ describe Mileage do
     end
 
     describe 'if there are no milage amounts' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns an empty array' do
         assert_equal [], Mileage.all(car_id).map { |miles| miles.mileage }
@@ -39,7 +43,9 @@ describe Mileage do
       end
     end
     describe "if there are readings" do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       before do
         create_mileage(car_id, 100)
@@ -54,7 +60,9 @@ describe Mileage do
 
   describe ".save" do
     describe "if the milage is valid" do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       let (:miles) { Mileage.new }
       it "returns true" do
@@ -82,7 +90,9 @@ describe Mileage do
     end
 
     describe "if the milage is invalid" do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       let (:miles) { Mileage.new }
       it "returns false" do

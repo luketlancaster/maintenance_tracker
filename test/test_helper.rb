@@ -19,7 +19,7 @@ class Minitest::Test
 end
 
 def main_menu
-  "1. List Cars\n2. List Tasks\n3. Update Mileage\n4. New Car\n5. Edit Car\n6. New Task\n7. Edit Task\n8. Delete Car\n9. Delete Task\n10. Exit\n"
+  "1. List Cars\n2. List Tasks\n3. Current Mileage\n4. Update Mileage\n5. New Car\n6. Edit Car\n7. New Task\n8. Edit Task\n9. Delete Car\n10. Delete Task\n11. Exit\n"
 end
 
 def create_car(year, make, model)

@@ -6,7 +6,7 @@ class AddingANewCarTest < Minitest::Test
     shell_output = ""
     expected_output = main_menu
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "4"
+      pipe.puts "5"
       expected_output << "Please enter the year of your car\n"
       pipe.puts "2000"
       expected_output << "Please enter the make of your car\n"
@@ -15,7 +15,7 @@ class AddingANewCarTest < Minitest::Test
       pipe.puts "Jetta"
       expected_output << "\n\n2000 Volkswagon Jetta added to database\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write
@@ -28,7 +28,7 @@ class AddingANewCarTest < Minitest::Test
     shell_output = ""
     expected_output = main_menu
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "4"
+      pipe.puts "5"
       expected_output << "Please enter the year of your car\n"
       pipe.puts "2000"
       expected_output << "Please enter the make of your car\n"
@@ -40,7 +40,7 @@ class AddingANewCarTest < Minitest::Test
       pipe.puts "Jetta"
       expected_output << "\n\n2000 Volkswagon Jetta added to database\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write

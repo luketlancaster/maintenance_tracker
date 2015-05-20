@@ -31,6 +31,31 @@ class TasksController
     end
   end
 
+  def list
+    cars = Car.all
+    cars_controller = CarsController.new
+    say("For which car?")
+    say(cars_controller.index)
+    car_index = ask('').to_i
+    while car_index < 1 or car_index > cars.length
+      say("#{car_index} is not a valid choice")
+      say("For which car?")
+      say(cars_controller.index)
+      car_index = ask('').to_i
+    end
+    car_index -= 1
+    car = cars[car_index].id
+    say(self.index(car))
+    loop do
+      continue = ask("Continue?(y/n)")
+      if continue == 'y'
+        break
+      end
+      say(self.index(car))
+    end
+
+  end
+
   def new_task
     cars = Car.all
     cars_controller = CarsController.new

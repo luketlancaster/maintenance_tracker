@@ -13,13 +13,13 @@ describe MileagesController do
       assert_equal expected_output, actual_output
     end
 
-    it "returns an ordered list of miles when database populated" do
+    it "returns an ordered list of miles with dates when database populated" do
       create_car(2000, "Hunko", "Junko")
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       create_mileage(car_id, 100)
       create_mileage(car_id, 120)
       actual_output = mileages_controller.index(car_id)
-      expected_output = "1. 100\n2. 120\n"
+      expected_output = "1. 100 miles on May 20 2015\n2. 120 miles on May 20 2015\n"
       assert_equal expected_output, actual_output
     end
   end

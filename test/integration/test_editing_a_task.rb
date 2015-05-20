@@ -10,7 +10,7 @@ class EditingATaskTest < Minitest::Test
     create_task(car_id, "Oil Change", 10000)
     create_task(car_id, "Rotato Tires", 20000)
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts '7'
+      pipe.puts '8'
       expected_output << "For which car?\n"
       expected_output << "1. 2000 VW Jetta\n"
       pipe.puts "1"
@@ -24,7 +24,7 @@ class EditingATaskTest < Minitest::Test
       pipe.puts "Rotate Tires"
       expected_output << "\n\nRotato Tires name changed to Rotate Tires\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write
@@ -40,7 +40,7 @@ class EditingATaskTest < Minitest::Test
     create_task(car_id, "Oil Change", 10000)
     create_task(car_id, "Rotato Tires", 20000)
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "7"
+      pipe.puts "8"
       expected_output << "For which car?\n"
       expected_output << "1. 2000 VW Jetta\n"
       pipe.puts "1"
@@ -54,7 +54,7 @@ class EditingATaskTest < Minitest::Test
       pipe.puts "210000"
       expected_output << "\n\nRotato Tires mileage changed from 20000 to 210000\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write
@@ -71,7 +71,7 @@ class EditingATaskTest < Minitest::Test
     create_task(car_id, "Oil Change", 10000)
     create_task(car_id, "Rotato Tires", 20000)
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "7"
+      pipe.puts "8"
       expected_output << "For which car?\n"
       expected_output << "1. 2000 VW Jetta\n"
       pipe.puts "1"
@@ -88,7 +88,7 @@ class EditingATaskTest < Minitest::Test
       pipe.puts "Rotate Tires"
       expected_output << "\n\nRotato Tires name changed to Rotate Tires\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write

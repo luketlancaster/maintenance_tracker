@@ -4,7 +4,9 @@ describe Task do
 
   describe '#all()' do
     describe 'when a proper car id is passed in' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns all the tasks in the db for that car' do
         create_task(car_id, "Oil Change", 10000)
@@ -23,7 +25,9 @@ describe Task do
     end
 
     describe 'if there are no tasks' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns and empty array' do
         assert_equal [], Task.all(car_id)
@@ -38,9 +42,9 @@ describe Task do
       end
     end
     describe 'if there are tasks in the database' do
-      create_car(2000, "VW", "Jetta")
-      car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       before do
+        create_car(2000, "VW", "Jetta")
+        car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
         create_task(car_id, "Oil Change", 20000)
         create_task(car_id, "Tire Rotation", 23000)
         create_task(car_id, "Fuel Filter", 24000)
@@ -53,7 +57,9 @@ describe Task do
 
   describe '.save' do
     describe 'if the task is valid' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       let (:task) { Task.new }
       it 'returns true' do
@@ -82,7 +88,9 @@ describe Task do
       end
     end
     describe 'if the task is invalid' do
-      create_car(2000, "VW", "Jetta")
+      before do
+        create_car(2000, "VW", "Jetta")
+      end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       let (:task) { Task.new }
       it 'returns false' do

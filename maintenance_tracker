@@ -7,8 +7,18 @@ Dir["./lib/*.rb"].each { |f| require f }
 loop do
   choose do |menu|
     menu.prompt = ""
-    menu.choice('List Cars') { say("\n\n#{CarsController.new.index}\n\n") }
-    menu.choice('List Tasks') { TasksController.new.list }
+    menu.choice('List Cars') do
+      say("\n\n#{CarsController.new.index}\n\n")
+      loop do
+        continue = ask("Continue?(y/n)")
+        if continue == "y"
+          break
+        end
+        say("\n\n#{CarsController.new.index}\n\n")
+      end
+    end
+    menu.choice('List Tasks') { say("\n\n#{TasksController.new.list}\n\n") }
+    menu.choice('Current Mileage') { say("#{MileagesController.new.list}") }
     menu.choice('Update Mileage') { MileagesController.new.update_miles }
     menu.choice('New Car') { CarsController.new.new_car }
     menu.choice('Edit Car') { CarsController.new.edit_car }

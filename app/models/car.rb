@@ -53,8 +53,6 @@ class Car
       "Car not found"
     else
       Database.execute("DELETE FROM cars WHERE id = ?", car_id)
-      Database.execute("DELETE FROM tasks WHERE car_id = ?", car_id)
-      Database.execute("DELETE FROM mileages WHERE car_id = ?", car_id)
     end
   end
 

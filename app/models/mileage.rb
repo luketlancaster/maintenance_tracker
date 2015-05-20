@@ -1,5 +1,5 @@
 class Mileage
-  attr_reader :id, :errors, :car_id
+  attr_reader :id, :errors, :car_id, :date
   attr_accessor :mileage
 
   def self.all(car)
@@ -8,6 +8,7 @@ class Mileage
       miles.mileage = row['mileage']
       miles.instance_variable_set(:@id, row['id'])
       miles.instance_variable_set(:@car_id, row['car_id'])
+      miles.instance_variable_set(:@date, row['date'])
       miles
     end
   end

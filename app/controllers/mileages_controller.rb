@@ -1,4 +1,5 @@
 require 'highline/import'
+require 'date'
 
 class MileagesController
 
@@ -7,7 +8,8 @@ class MileagesController
       miles = Mileage.all(car_id)
       miles_string = ""
       miles.each_with_index do |mile, index|
-        miles_string << "#{index + 1}. #{mile.mileage}\n"
+        date = Date.parse(mile.date).strftime('%B %d %Y')
+        miles_string << "#{index + 1}. #{mile.mileage} miles on #{date}\n"
       end
       miles_string
     else
@@ -30,6 +32,31 @@ class MileagesController
     end
   end
 
+  def list
+    cars = Car.all
+    cars_controller = CarsController.new
+    say("For which car?")
+    say(cars_controller.index)
+    car_index = ask('').to_i
+    while car_index < 1 or car_index > cars.length
+      say("#{car_index} is not a valid choice")
+      say("For which car?")
+      say(cars_controller.index)
+      car_index = ask('').to_i
+    end
+    car_index -= 1
+    car = cars[car_index].id
+    say(self.index(car))
+    loop do
+      continue = ask("Continue?(y/n)")
+      if continue == 'y'
+        break
+      end
+      say(self.index(car))
+    end
+
+  end
+
   def update_miles
     cars = Car.all
     cars_controller = CarsController.new
@@ -40,7 +67,7 @@ class MileagesController
       say("#{car_index} is not a valid choice")
       say("For which car?")
       say(cars_controller.index)
-      car_index = ask('')
+      car_index = ask('').to_i
     end
     miles = ask("What is your current mileage?")
     while miles.to_i < 1 or miles.empty? or miles.nil?

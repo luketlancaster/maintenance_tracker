@@ -8,7 +8,7 @@ class EditingACarTest < Minitest::Test
     create_car(2000, "VW", "Jetta")
     create_car(1987, "Big", "Chief")
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "5"
+      pipe.puts "6"
       expected_output << "Which car would you like to edit?\n"
       expected_output << "1. 2000 VW Jetta\n2. 1987 Big Chief\n"
       pipe.puts "1"
@@ -18,7 +18,7 @@ class EditingACarTest < Minitest::Test
       pipe.puts "Volkswagon"
       expected_output << "\n\n2000 VW Jetta has been updated to 2000 Volkswagon Jetta\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write
@@ -32,7 +32,7 @@ class EditingACarTest < Minitest::Test
     create_car(2000, "VW", "Jetta")
     create_car(1987, "Big", "Chief")
     IO.popen('./maintenance_tracker', 'r+') do |pipe|
-      pipe.puts "5"
+      pipe.puts "6"
       expected_output << "Which car would you like to edit?\n"
       expected_output << "1. 2000 VW Jetta\n2. 1987 Big Chief\n"
       pipe.puts "1"
@@ -45,7 +45,7 @@ class EditingACarTest < Minitest::Test
       pipe.puts "3000"
       expected_output << "\n\n2000 VW Jetta has been updated to 3000 VW Jetta\n\n"
       expected_output << main_menu
-      pipe.puts "10"
+      pipe.puts "11"
       shell_output = pipe.read
       pipe.close_read
       pipe.close_write
