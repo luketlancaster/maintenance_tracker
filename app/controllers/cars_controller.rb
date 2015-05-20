@@ -89,4 +89,26 @@ class CarsController
     end
   end
 
+  def delete_car
+    cars = Car.all
+    say("Which car would you like to delete?")
+    say(self.index)
+    car_index = ask('')
+    while car_index.to_i < 1 or car_index.strip.empty? or car_index.to_i > cars.length
+      say("'#{car_index}' is not valid input")
+      say("Which car would you like to delete?")
+      say(self.index)
+      car_index = ask('')
+    end
+    car_index = car_index.to_i - 1
+    car = cars[car_index]
+    car_string = ask("To confirm, please enter year, make, and model of this car")
+    if car_string == "#{car.year} #{car.make} #{car.model}"
+      car.delete(car.id)
+      say("\n\n#{car.year} #{car.make} #{car.model} and all maintenance records removed\n\n")
+    else
+      say("Incorrect input, please try again")
+    end
+  end
+
 end

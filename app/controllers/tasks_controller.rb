@@ -114,6 +114,40 @@ class TasksController
     else
       say("#{task.errors}")
     end
+  end
 
+  def delete_task
+    cars = Car.all
+    cars_controller = CarsController.new
+    say("From wich car?")
+    say(cars_controller.index)
+    car_index = ask('')
+    while car_index.to_i < 1 or car_index.strip.empty? or car_index.to_i > cars.length
+      say("'#{car_index}' is not valid input")
+      say("From which car?")
+      say(cars_controller.index)
+      car_index = ask('')
+    end
+    car_index = car_index.to_i - 1
+    car_id = cars[car_index].id
+    say("Which task would you like to delete?")
+    say(self.index(car_id))
+    task_index = ask('').to_i
+    tasks = Task.all(car_id)
+    while task_index < 1 or task_index > tasks.length
+      say("#{task_index} is not a valid choice")
+      say("Which task would you like to delete?")
+      say(self.index(car_id))
+      task_index = ask('').to_i
+    end
+    task_index = task_index - 1
+    task = tasks[task_index]
+    confirmation = ask("Are you sure you want to delete the #{task.name} scheduled at #{task.mileage}?(y/n)")
+    if confirmation.upcase == "Y"
+      task.delete(task.id)
+      say("\n\n#{task.name} at #{task.mileage} deleted")
+    else
+      say("Deletion canceled")
+    end
   end
 end

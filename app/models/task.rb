@@ -53,4 +53,12 @@ class Task
       Database.execute("UPDATE tasks SET name = ?, mileage = ? WHERE id = ?", name, mileage, id)
     end
   end
+
+  def delete(task_id)
+    if task_id.nil?
+      "Task not found"
+    else
+      Database.execute("DELETE FROM tasks WHERE id = ?", task_id)
+    end
+  end
 end

@@ -16,20 +16,18 @@ class Database
     Database.execute <<-SQL
     CREATE TABLE IF NOT EXISTS tasks (
       id integer PRIMARY KEY AUTOINCREMENT,
-      car_id integer,
+      car_id integer REFERENCES cars (id) ON DELETE CASCADE,
       name varchar(20),
       mileage integer,
-      completed boolean not null default 0,
-      FOREIGN KEY (car_id) REFERENCES cars (id)
+      completed boolean not null default 0
     );
     SQL
     Database.execute <<-SQL
     CREATE TABLE IF NOT EXISTS mileages (
       id integer PRIMARY KEY AUTOINCREMENT,
-      car_id integer,
+      car_id integer REFERENCES cars (id) ON DELETE CASCADE,
       mileage integer,
-      date datetime DEFAULT (datetime('now','localtime')),
-      FOREIGN KEY (car_id) REFERENCES cars (id)
+      date datetime DEFAULT (datetime('now','localtime'))
     );
     SQL
   end
