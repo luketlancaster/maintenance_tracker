@@ -26,6 +26,7 @@ class Task
     tasks = Task.new
     tasks.name = row['name']
     tasks.mileage = row['mileage']
+    tasks.completed = row['completed']
     tasks.instance_variable_set(:@id, row['id'])
     tasks.instance_variable_set(:@car_id, row['car_id'])
     tasks
@@ -50,11 +51,11 @@ class Task
       Database.execute("INSERT INTO tasks(name, mileage, car_id) VALUES (?,?,?)", name, mileage, car_id)
       @id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
     else
-      Database.execute("UPDATE tasks SET name = ?, mileage = ? WHERE id = ?", name, mileage, id)
+      Database.execute("UPDATE tasks SET name = ?, mileage = ?, completed = ? WHERE id = ?", name, mileage, completed, id)
     end
   end
 
-  def delete(task_id)
+  def self.delete(task_id)
     if task_id.nil?
       "Task not found"
     else

@@ -113,6 +113,25 @@ describe Car do
     end
   end
 
+  describe ".delete()" do
+    let (:car) { Car.new }
+    describe "with valid car id" do
+      it "deletes the approprite car from the databse" do
+        create_car(2000, "Vorlksworgarn", "Jamta")
+        create_car(2001, "VW", "Jortta")
+        cars = Car.all
+        first_car = cars[0]
+        first_car_id = first_car.id
+        Car.delete(first_car_id)
+        count = Database.execute("SELECT COUNT(id) FROM cars")[0][0]
+        assert_equal 1, count
+      end
+      it "does not delete anything else" do
+
+      end
+    end
+  end
+
   describe ".valid?" do
     describe "with valid data" do
       let(:car) { Car.new }

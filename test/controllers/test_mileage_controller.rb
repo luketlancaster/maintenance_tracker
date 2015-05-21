@@ -19,7 +19,7 @@ describe MileagesController do
       create_mileage(car_id, 100)
       create_mileage(car_id, 120)
       actual_output = mileages_controller.index(car_id)
-      expected_output = "1. 100 miles on May 20 2015\n2. 120 miles on May 20 2015\n"
+      expected_output = "1. 100 miles on May 21 2015\n2. 120 miles on May 21 2015\n"
       assert_equal expected_output, actual_output
     end
   end

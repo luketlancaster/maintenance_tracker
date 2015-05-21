@@ -17,7 +17,7 @@ loop do
         say("\n\n#{CarsController.new.index}\n\n")
       end
     end
-    menu.choice('List Tasks') { say("\n\n#{TasksController.new.list}\n\n") }
+    menu.choice('List Tasks') { say TasksController.new.list }
     menu.choice('Current Mileage') { say("#{MileagesController.new.list}") }
     menu.choice('Update Mileage') { MileagesController.new.update_miles }
     menu.choice('New Car') { CarsController.new.new_car }

@@ -104,7 +104,7 @@ class CarsController
     car = cars[car_index]
     car_string = ask("To confirm, please enter year, make, and model of this car")
     if car_string == "#{car.year} #{car.make} #{car.model}"
-      car.delete(car.id)
+      Car.delete(car.id)
       say("\n\n#{car.year} #{car.make} #{car.model} and all maintenance records removed\n\n")
     else
       say("Incorrect input, please try again")
