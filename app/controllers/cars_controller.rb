@@ -76,7 +76,7 @@ class CarsController
       end
     elsif choice == "year"
       car.year = ask("Please enter the updated year")
-      while car.year.empty?
+      while car.year.nil? or car.year.to_s.empty?
         puts "'#{car.year}' is not acceptable input"
         car.year = ask("Please enter the updated year")
       end

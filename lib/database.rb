@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'active_record'
 
 class Database
 
@@ -43,8 +44,8 @@ class Database
   end
 
   def self.initialize_database
-    enviroment = ENV["TEST"] ? "test" : "production"
-    database = "db/maintenance_tracker_#{enviroment}.sqlite"
+    environment = Environment.current
+    database = "db/maintenance_tracker_#{environment}.sqlite"
     @@db = SQLite3::Database.new(database)
     @@db.results_as_hash = true
   end

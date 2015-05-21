@@ -57,15 +57,6 @@ describe Car do
         car_model = last_row['model']
         assert_equal "Jetta", car_model
       end
-      it "should populate the model with the id from the db" do
-        car.make = "Volkswagon"
-        car.model = "Jetta"
-        car.year = 2000
-        car.save
-        last_row = Database.execute("SELECT * FROM cars")[0]
-        database_id = last_row['id']
-        assert_equal database_id, car.id
-      end
     end
 
 
@@ -89,7 +80,7 @@ describe Car do
         car.model = "  "
         car.year = 2000
         car.save
-        assert_equal "\"#{car.model}\" is not a valid model", car.errors
+        assert_equal ["Model can't be blank"], car.errors.full_messages
       end
     end
 
@@ -113,25 +104,6 @@ describe Car do
     end
   end
 
-  describe ".delete()" do
-    let (:car) { Car.new }
-    describe "with valid car id" do
-      it "deletes the approprite car from the databse" do
-        create_car(2000, "Vorlksworgarn", "Jamta")
-        create_car(2001, "VW", "Jortta")
-        cars = Car.all
-        first_car = cars[0]
-        first_car_id = first_car.id
-        Car.delete(first_car_id)
-        count = Database.execute("SELECT COUNT(id) FROM cars")[0][0]
-        assert_equal 1, count
-      end
-      it "does not delete anything else" do
-
-      end
-    end
-  end
-
   describe ".valid?" do
     describe "with valid data" do
       let(:car) { Car.new }
@@ -141,17 +113,10 @@ describe Car do
         car.year = 2000
         assert_equal true, car.valid?
       end
-      it "should set errors to nil?" do
-        car.make = "Volkswagon"
-        car.model = "Jetta"
-        car.year = 2000
-        car.valid?
-        assert car.errors.nil?
-      end
     end
 
     describe "with no make" do
-      let(:car) { Car.new(year: 2000, make: "", model: "Jetta") }
+      let(:car) { Car.new }
       it "retruns false" do
         car.make = ""
         car.model = "Jetta"
@@ -163,7 +128,7 @@ describe Car do
         car.model = "Jetta"
         car.year = 2000
         car.valid?
-        assert_equal "\"\" is not a valid make", car.errors
+        assert_equal ["Make can't be blank"], car.errors.full_messages
       end
     end
 
@@ -180,7 +145,7 @@ describe Car do
         car.model = "Jetta"
         car.year = "Joe"
         car.valid?
-        assert_equal "\"#{car.year}\" is not a valid year", car.errors
+        assert_equal ["Year is not a number"], car.errors.full_messages
       end
     end
   end
