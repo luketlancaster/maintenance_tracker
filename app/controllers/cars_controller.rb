@@ -85,7 +85,7 @@ class CarsController
       say("\n\n#{old_car} has been updated to #{car.year} #{car.make} #{car.model}\n\n")
       return
     else
-      say(car.errors)
+      say(car.errors.full_messages.to_s)
     end
   end
 

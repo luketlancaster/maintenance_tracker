@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 describe Mileage do
 
-  describe '#all()' do
+  describe '#all' do
     describe 'when a proper car id is passed in' do
       before do
         create_car(2000, "VW", "Jetta")
@@ -10,7 +10,7 @@ describe Mileage do
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns all mileage readings for that car' do
         create_mileage(car_id, 100000)
-        actual = Mileage.all(car_id).map { |miles| miles.mileage }
+        actual = Mileage.all.map { |miles| miles.mileage }
         expected = [100000]
         assert_equal expected, actual
       end
@@ -19,7 +19,7 @@ describe Mileage do
         create_mileage(car_id, 100)
         create_mileage(car_id, 120)
         create_mileage(car_id, 130)
-        actual = Mileage.all(car_id).map { |miles| miles.mileage }
+        actual = Mileage.all.map { |miles| miles.mileage }
         expected = [100, 120, 130]
         assert_equal expected, actual
       end
@@ -31,7 +31,7 @@ describe Mileage do
       end
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns an empty array' do
-        assert_equal [], Mileage.all(car_id).map { |miles| miles.mileage }
+        assert_equal [], Mileage.all.map { |miles| miles.mileage }
       end
     end
   end
@@ -110,7 +110,7 @@ describe Mileage do
         miles.mileage = "Joe"
         miles.instance_variable_set(:@car_id, car_id)
         miles.save
-        assert_equal "\"Joe\" is not a valid mileage", miles.errors
+        assert_equal ["Mileage is not a number"], miles.errors.full_messages
       end
     end
   end

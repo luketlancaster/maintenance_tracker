@@ -5,10 +5,9 @@ class MileagesController
 
   def index(car_id)
     if Mileage.count > 0
-      miles = Mileage.all(car_id)
       miles_string = ""
-      miles.each_with_index do |mile, index|
-        date = Date.parse(mile.date).strftime('%B %d %Y')
+      Mileage.where(car_id: car_id).each_with_index do |mile, index|
+        date = mile.date.strftime('%B %d %Y')
         miles_string << "#{index + 1}. #{mile.mileage} miles on #{date}\n"
       end
       miles_string
@@ -20,13 +19,10 @@ class MileagesController
   def add(car_id, mileage)
     miles = Mileage.new
     miles.mileage = mileage
-    miles.instance_variable_set(:@car_id, car_id)
     if miles.save
-      car = Database.execute("SELECT * FROM cars WHERE id == ?", car_id)
-      model = car[0]['model']
-      year = car[0]['year']
-      make = car[0]['make']
-      "\n\n#{year} #{make} #{model} mileage updated to #{mileage} miles\n\n"
+      car = Car.find(car_id)
+      car.update(mileage_id: miles.id)
+      "\n\n#{car.year} #{car.make} #{car.model} mileage updated to #{mileage} miles\n\n"
     else
       "#{miles.errors}"
     end

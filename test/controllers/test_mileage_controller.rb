@@ -19,7 +19,19 @@ describe MileagesController do
       create_mileage(car_id, 100)
       create_mileage(car_id, 120)
       actual_output = mileages_controller.index(car_id)
-      expected_output = "1. 100 miles on May 21 2015\n2. 120 miles on May 21 2015\n"
+      expected_output = "1. 100 miles on May 22 2015\n2. 120 miles on May 22 2015\n"
+      assert_equal expected_output, actual_output
+    end
+
+    it "only returns the mileage for one car" do
+      create_car(2000, "Hunko", "Junko")
+      create_car(2012, "VW", "Jetta")
+      car_id = Car.first.id
+      second_car_id = Car.last.id
+      create_mileage(car_id, 100)
+      create_mileage(second_car_id, 200)
+      actual_output = mileages_controller.index(car_id)
+      expected_output = "1. 100 miles on May 22 2015\n"
       assert_equal expected_output, actual_output
     end
   end
@@ -30,15 +42,6 @@ describe MileagesController do
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       mileages_controller.add(car_id, 200000)
       assert_equal 1, Mileage.count
-    end
-
-    it "adds that mileage id to the car table as well" do
-      create_car(2000, "Hunko", "Junko")
-      car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
-      mileages_controller.add(car_id, 20000)
-      mileage_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
-      car_current_mileage_id = Database.execute("SELECT current_mileage_id FROM cars WHERE id = ?", car_id)
-      assert_equal car_current_mileage_id[0][0], mileage_id
     end
 
     it "does not add mileages that are strings" do

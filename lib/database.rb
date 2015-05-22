@@ -10,8 +10,8 @@ class Database
       make varchar(50) NOT NULL,
       model varchar(50) NOT NULL,
       year integer NOT NULL,
-      current_mileage_id integer,
-      FOREIGN KEY (current_mileage_id) REFERENCES mileages (id)
+      mileage_id integer,
+      FOREIGN KEY (mileage_id) REFERENCES mileages (id)
     );
     SQL
     Database.execute <<-SQL
