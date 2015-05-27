@@ -33,6 +33,4 @@ end
 
 def create_mileage(car_id, mileage)
   Database.execute("INSERT INTO mileages (car_id, mileage) VALUES (?,?)", car_id, mileage)
-  mileage_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
-  Database.execute("UPDATE cars SET mileage_id = ? WHERE id = ?", mileage_id, car_id)
 end

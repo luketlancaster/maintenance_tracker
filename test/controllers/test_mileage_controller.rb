@@ -1,4 +1,5 @@
 require_relative '../test_helper'
+require 'date'
 
 describe MileagesController do
 
@@ -19,7 +20,8 @@ describe MileagesController do
       create_mileage(car_id, 100)
       create_mileage(car_id, 120)
       actual_output = mileages_controller.index(car_id)
-      expected_output = "1. 100 miles on May 22 2015\n2. 120 miles on May 22 2015\n"
+      today = Date.today.strftime('%B %d %Y')
+      expected_output = "1. 100 miles on #{today}\n2. 120 miles on #{today}\n"
       assert_equal expected_output, actual_output
     end
 
@@ -31,7 +33,8 @@ describe MileagesController do
       create_mileage(car_id, 100)
       create_mileage(second_car_id, 200)
       actual_output = mileages_controller.index(car_id)
-      expected_output = "1. 100 miles on May 22 2015\n"
+      today = Date.today.strftime('%B %d %Y')
+      expected_output = "1. 100 miles on #{today}\n"
       assert_equal expected_output, actual_output
     end
   end

@@ -4,12 +4,11 @@ class TasksController
 
   def index(car_id)
     if Task.count > 0
-      tasks = Task.all(car_id)
       tasks_string = ""
-      tasks.each_with_index do |task, index|
-        if task.completed == 0
+      Task.where(car_id: car_id).order(mileage: :asc).each_with_index do |task, index|
+        if task.completed == false
           tasks_string << "#{index + 1}. #{task.name} at #{task.mileage} miles\n"
-        else
+        elsif task.completed == true
           tasks_string << "#{index + 1}. √ #{task.name} at #{task.mileage} miles\n"
         end
       end
@@ -20,36 +19,38 @@ class TasksController
   end
 
   def add(car_id, name, mileage)
-    tasks = Task.new
-    tasks.name = name
-    tasks.mileage = mileage
-    tasks.instance_variable_set(:@car_id, car_id)
-    if tasks.save
-      car = Database.execute("SELECT * FROM cars WHERE id == ?", car_id)
-      model = car[0]['model']
-      year = car[0]['year']
-      make = car[0]['make']
-      "#{name} for your #{year} #{make} #{model} scheduled at #{mileage} miles"
+    task = Task.new
+    task.name = name
+    task.mileage = mileage
+    if task.save
+      car =  Car.find(car_id)
+      task.update(car_id: car_id)
+      "#{name} for your #{car.year} #{car.make} #{car.model} scheduled at #{mileage} miles"
     else
-      "#{tasks.errors}"
+      "#{task.errors}"
     end
   end
 
-  def list
+  def car_finder
     cars = Car.all
     cars_controller = CarsController.new
     say("For which car?")
     say(cars_controller.index)
-    car_index = ask('').to_i
-    while car_index < 1 or car_index > cars.length
+    car_index = ask('')
+    while car_index.to_i < 1 or car_index.to_i > cars.length
       say("#{car_index} is not a valid choice")
       say("For which car?")
       say(cars_controller.index)
-      car_index = ask('').to_i
+      car_index = ask('')
     end
-    car_index -= 1
-    car = cars[car_index].id
-    say("\n\n#{self.index(car)}\n\n")
+    car_index = car_index.to_i - 1
+    cars[car_index].id
+  end
+
+
+  def list
+    car_id = car_finder
+    say("\n\n#{self.index(car_id)}\n\n")
     loop do
       continue = ask("Continue?(y/n)")
       if continue == 'y'
@@ -57,21 +58,10 @@ class TasksController
       end
       say(self.index(car))
     end
-
   end
 
   def new_task
-    cars = Car.all
-    cars_controller = CarsController.new
-    say("For which car?")
-    say(cars_controller.index)
-    car_index = ask('').to_i
-    while car_index < 1 or car_index > cars.length
-      say("#{car_index} is not a valid choice")
-      say("For which car?")
-      say(cars_controller.index)
-      car_index = ask('').to_i
-    end
+    car_id = car_finder
     name = ask("What is the name of the task?")
     while name.empty?
       say("#{name} is not valid input")
@@ -83,34 +73,20 @@ class TasksController
       mileage = ask("At what miles does your #{name} need to be done?")
     end
     mileage = mileage.to_i
-    car_index -= 1
-    car_id = cars[car_index].id
     response = self.add(car_id, name, mileage)
     say(response) unless response.nil?
   end
 
-  def edit_task
-    cars = Car.all
-    cars_controller = CarsController.new
-    say("For which car?")
-    say(cars_controller.index)
-    car_index = ask('').to_i
-    while car_index < 1 or car_index > cars.length
-      say("#{car_index} is not a valid choice")
-      say("For which car?")
-      say(cars_controller.index)
-      car_index = ask('').to_i
-    end
-    car_index -= 1
-    car_id = cars[car_index].id
+  def task_finder
+    car_id = car_finder
     say("What task would you like to edit? (or type exit to leave)")
     say(self.index(car_id))
     task_index = ask('')
-    task = Task.all(car_id)
+    tasks = Task.where(car_id: car_id).order(mileage: :asc)
     if task_index == "exit"
       return
     end
-    while task_index.to_i < 1 or task_index.to_i > task.length
+    while task_index.to_i < 1 or task_index.to_i > tasks.length
       say("#{task_index} is not a valid choice")
       say("What task would you like to edit? (or type exit to leave)")
       say(self.index(car_id))
@@ -119,29 +95,39 @@ class TasksController
         return
       end
     end
-    task_index = task_index.to_i - 1
-    task = task[task_index]
+    task_i = task_index.to_i - 1
+    tasks[task_i]
+  end
+
+  def update_mileage(task_id, miles)
+    task = Task.find_by(id: task_id)
+    task.mileage = miles
+    task.save
+  end
+
+  def edit_task
+    task = task_finder
     old_name = task.name
     old_mileage = task.mileage
     choice = ask("What would you like to edit: name, mileage, or completion")
-    if choice == "name"
-      task.name = ask("Please enter the updated name").strip
-      while task.name.empty?
-        say("\"#{task.name}\" is not acceptable input")
-        task.name = ask("Please enter the updated name").strip
-      end
-    elsif choice == "mileage"
+    if choice == "mileage"
       task.mileage = ask("Please enter the updated mileage").strip.to_i
       while task.mileage.zero?
         say("\"#{task.mileage}\" is not acceptable input")
         task.mileage = ask("Please enter the updated mileage").strip.to_i
       end
     elsif choice == "completion"
-      task.completed = ask("Mark task as completed? (y/n)")
-      if task.completed == "y"
-        task.completed = 1
+      completed = ask("Mark task as completed? (y/n)")
+      if completed == "y"
+        task.completed = true
       else
-        task.completed = 0
+        task.completed = false
+      end
+    elsif choice == "name"
+      task.name = ask("Please enter the updated name").strip
+      while task.name.empty?
+        say("\"#{task.name}\" is not acceptable input")
+        task.name = ask("Please enter the updated name").strip
       end
     elsif choice == "exit"
       return
@@ -149,43 +135,25 @@ class TasksController
     if choice == "name" and task.save
       say("\n\n#{old_name} name changed to #{task.name}\n\n")
       return
-    else
-      say("#{task.errors}")
+    elsif choice == "name"
+      say("#{task.errors.full_messages}")
     end
     if choice == "mileage" and task.save
       say("\n\n#{task.name} mileage changed from #{old_mileage} to #{task.mileage}\n\n")
       return
-    else
-      say("#{task.errors}")
+    elsif choice == "mileage"
+      say("#{task.errors.full_messages}")
     end
     if choice == "completion" and task.save
       say("\n\n#{task.name} marked as completed\n\n")
       return
-    else
-      say("#{task.errors}")
+    elsif choice == "completion"
+      say("#{task.errors.full_messages}")
     end
   end
 
   def delete_task
-    cars = Car.all
-    cars_controller = CarsController.new
-    say("From wich car?")
-    say(cars_controller.index)
-    car_index = ask('')
-    if car_index == "exit"
-      return
-    end
-    while car_index.to_i < 1 or car_index.strip.empty? or car_index.to_i > cars.length
-      say("'#{car_index}' is not valid input")
-      say("From which car?")
-      say(cars_controller.index)
-      car_index = ask('')
-      if car_index == "exit"
-        return
-      end
-    end
-    car_index = car_index.to_i - 1
-    car_id = cars[car_index].id
+    car_id = car_finder
     say("Which task would you like to delete?")
     say(self.index(car_id))
     task_index = ask('')

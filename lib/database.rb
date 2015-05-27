@@ -9,9 +9,7 @@ class Database
       id integer PRIMARY KEY AUTOINCREMENT,
       make varchar(50) NOT NULL,
       model varchar(50) NOT NULL,
-      year integer NOT NULL,
-      mileage_id integer,
-      FOREIGN KEY (mileage_id) REFERENCES mileages (id)
+      year integer NOT NULL
     );
     SQL
     Database.execute <<-SQL

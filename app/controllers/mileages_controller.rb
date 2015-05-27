@@ -21,7 +21,7 @@ class MileagesController
     miles.mileage = mileage
     if miles.save
       car = Car.find(car_id)
-      car.update(mileage_id: miles.id)
+      miles.update(car_id: car_id)
       "\n\n#{car.year} #{car.make} #{car.model} mileage updated to #{mileage} miles\n\n"
     else
       "#{miles.errors}"

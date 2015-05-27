@@ -10,16 +10,8 @@ describe Task do
       car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns all the tasks in the db for that car' do
         create_task(car_id, "Oil Change", 10000)
-        actual = Task.all(car_id).map { |task| task.mileage }
+        actual = Task.all.map { |task| task.mileage }
         expected = [10000]
-        assert_equal expected, actual
-      end
-
-      it 'returns those sorted by miles ascending' do
-        create_task(car_id, "Oil Change", 10000)
-        create_task(car_id, "Tire Rotation", 9800)
-        actual = Task.all(car_id).map { |task| task.mileage }
-        expected = [9800, 10000]
         assert_equal expected, actual
       end
     end
@@ -28,9 +20,8 @@ describe Task do
       before do
         create_car(2000, "VW", "Jetta")
       end
-      car_id = Database.execute("SELECT last_insert_rowid()")[0]['last_insert_rowid()']
       it 'returns and empty array' do
-        assert_equal [], Task.all(car_id)
+        assert_equal [], Task.all
       end
     end
   end
@@ -111,7 +102,7 @@ describe Task do
         task.name = ""
         task.instance_variable_set(:@car_id, car_id)
         task.save
-        assert_equal "\"#{task.name}\" is not a valid task name", task.errors
+        assert_equal ["Name can't be blank"], task.errors.full_messages
       end
     end
   end
