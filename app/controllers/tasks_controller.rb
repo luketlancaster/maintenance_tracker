@@ -157,7 +157,7 @@ class TasksController
     say("Which task would you like to delete?")
     say(self.index(car_id))
     task_index = ask('')
-    tasks = Task.all(car_id)
+    tasks = Task.where(car_id: car_id)
     if task_index == "exit"
       return
     end
@@ -170,7 +170,7 @@ class TasksController
         return
       end
     end
-    task_index = task_index - 1
+    task_index = task_index.to_i - 1
     task = tasks[task_index]
     confirmation = ask("Are you sure you want to delete the #{task.name} scheduled at #{task.mileage}?(y/n)")
     if confirmation.upcase == "Y"
